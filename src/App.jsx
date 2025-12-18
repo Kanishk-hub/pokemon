@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect, useCallback } from 'react'
 import LoadingScreen from './components/LoadingScreen'
 import ThemeToggle from './components/ThemeToggle'
 import AudioToggle from './components/AudioToggle'
@@ -21,6 +21,8 @@ function App() {
   })
   
   const soundsRef = useRef(null)
+  const onModelLoadedRef = useRef(null)
+  const onShowModalRef = useRef(null)
 
   const modalData = {
     Project_1: {
@@ -48,11 +50,11 @@ function App() {
     },
   }
 
-  const playSound = (soundId) => {
-    if (!isMuted && soundsRef.current && soundsRef.current[soundId]) {
+  const playSound = useCallback((soundId) => {
+    if (soundsRef.current && soundsRef.current[soundId]) {
       soundsRef.current[soundId].play()
     }
-  }
+  }, [])
 
   const handleEnterPark = () => {
     setIsLoading(false)
@@ -62,19 +64,19 @@ function App() {
     }
   }
 
-  const handleModelLoaded = () => {
+  const handleModelLoaded = useCallback(() => {
     setIsLoaded(true)
-  }
+  }, [])
 
-  const handleShowModal = (id) => {
+  const handleShowModal = useCallback((id) => {
     const content = modalData[id]
     if (content) {
       setModalContent(content)
-      if (!isMuted) {
-        playSound('projectsSFX')
-      }
     }
-  }
+  }, [])
+
+  onModelLoadedRef.current = handleModelLoaded
+  onShowModalRef.current = handleShowModal
 
   const handleCloseModal = () => {
     setModalContent(null)
@@ -174,14 +176,13 @@ function App() {
     <div className={isDarkTheme ? 'dark-theme' : 'light-theme'}>
       <div id="experience">
         <ThreeScene 
-          onModelLoaded={handleModelLoaded}
-          onShowModal={handleShowModal}
+          onModelLoadedRef={onModelLoadedRef}
+          onShowModalRef={onShowModalRef}
           pressedButtons={pressedButtons}
           isMuted={isMuted}
           isDarkTheme={isDarkTheme}
           isModalOpen={modalContent !== null}
           soundsRef={soundsRef}
-          playSound={playSound}
         />
       </div>
 

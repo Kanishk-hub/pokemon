@@ -22,14 +22,13 @@ const intersectObjectsNames = [
 const pokemonNames = ['Bulbasaur', 'Chicken', 'Pikachu', 'Charmander', 'Squirtle', 'Snorlax']
 
 function ThreeScene({ 
-  onModelLoaded, 
-  onShowModal, 
+  onModelLoadedRef, 
+  onShowModalRef, 
   pressedButtons, 
   isMuted, 
   isDarkTheme,
   isModalOpen,
-  soundsRef,
-  playSound
+  soundsRef
 }) {
   const canvasRef = useRef(null)
   const sceneRef = useRef(null)

@@ -1,50 +1,49 @@
-# Bella's Park - 3D Portfolio (React)
+# Bella's Park - React 3D Portfolio
 
 ## Overview
-An interactive 3D portfolio website built with React and Three.js. Users can explore a 3D park environment using arrow keys or mobile controls to learn about Bella and view projects.
+An interactive 3D portfolio website built with React, Vite, and Three.js. Users can explore a 3D park environment using arrow keys or mobile controls to learn about Bella and view projects. Converted from vanilla HTML/CSS/JS to React for better component structure and state management.
 
 ## Project Structure
-```
-src/
-  components/
-    ThreeScene.jsx     - Main Three.js scene with 3D rendering and physics
-    LoadingScreen.jsx  - Loading/enter screen component
-    ThemeToggle.jsx    - Day/night theme toggle button
-    AudioToggle.jsx    - Sound on/off toggle button
-    Modal.jsx          - Project info modal component
-    MobileControls.jsx - Touch controls for mobile devices
-  App.jsx              - Main React app with state management
-  App.css              - All styles
-  main.jsx             - React entry point
-  index.css            - Global styles and font import
-public/
-  Portfolio.glb        - 3D model of the park environment
-  sfx/                 - Audio files (music, sound effects)
-  media/               - Favicons and social media images
-```
+- `src/App.jsx` - Main React app with state management (theme, audio, modal, keyboard input)
+- `src/components/ThreeScene.jsx` - Three.js canvas component with 3D rendering, physics, and interactivity
+- `src/components/LoadingScreen.jsx` - Loading screen UI
+- `src/components/ThemeToggle.jsx` - Day/night theme toggle button
+- `src/components/AudioToggle.jsx` - Audio on/off button
+- `src/components/Modal.jsx` - Project detail modal
+- `src/components/MobileControls.jsx` - Mobile touch controls
+- `public/` - Static assets (Portfolio.glb, sfx, media)
+- `index.html` - Vite entry point
+- `vite.config.js` - Vite configuration with allowedHosts for Replit
 
 ## Technologies
-- React 19 with Vite
-- Three.js - 3D rendering
-- GSAP - Animations
-- Howler.js - Audio management
+- React 18 with Hooks (useState, useRef, useEffect, useCallback)
+- Vite - Fast build tool and dev server
+- Three.js - 3D rendering with OrbitControls, GLTFLoader, physics (Octree, Capsule)
+- GSAP - Animations for character jumps and theme transitions
+- Howler.js - Audio management (background music, sound effects)
 
-## Development
+## Key Design Decisions
+- **Scene Initialization**: Three.js scene runs only once on mount (empty useEffect dependency) to prevent re-renders from restarting the 3D engine
+- **Ref-Based State**: Used refs for frequently changing state (pressed buttons, mute status, modal state) to avoid unnecessary re-renders
+- **Callback Stability**: Used refs for onModelLoaded and onShowModal to maintain stable references while allowing parent component state updates
+
+## Running Locally
 ```bash
 npm run dev
 ```
-Runs on port 5000.
+Server runs on port 5000.
 
 ## Build
 ```bash
 npm run build
 ```
-Outputs to `dist/` folder for static deployment.
+Output in `dist/` folder for deployment.
 
 ## Features
 - First-person 3D navigation with physics/collision
-- Day/night theme toggle with lighting changes
+- Day/night theme toggle with dynamic lighting
 - Audio toggle with background music and sound effects
-- Mobile touch controls (visible on screens < 1100px)
+- Mobile touch controls
 - Project modals for showcasing work
-- Pokemon character interactions with bounce animations
+- Character with jump animation
+- Interactive Pokémon encounters

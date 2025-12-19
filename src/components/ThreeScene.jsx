@@ -200,7 +200,9 @@ function ThreeScene({
 
     const manager = new THREE.LoadingManager()
     manager.onLoad = () => {
-      onModelLoaded()
+      if (onModelLoadedRef.current) {
+        onModelLoadedRef.current()
+      }
     }
 
     const loader = new GLTFLoader(manager)
@@ -310,7 +312,9 @@ function ThreeScene({
             isCharacterReadyRef.current = false
           }
         } else if (intersectObject) {
-          onShowModal(intersectObject)
+          if (onShowModalRef.current) {
+            onShowModalRef.current(intersectObject)
+          }
         }
       }
     }
@@ -523,7 +527,7 @@ function ThreeScene({
       
       renderer.dispose()
     }
-  }, [onModelLoaded, onShowModal, soundsRef])
+  }, [])
 
   return <canvas id="experience-canvas" ref={canvasRef} />
 }
